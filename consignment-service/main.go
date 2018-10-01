@@ -1,9 +1,13 @@
 package main
 
 import (
-	"context"
 	"net"
 	"log"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
+	"golang.org/x/net/context"
+
+	 pb "github.com/emeve89/microgo/consignment-service/proto/consignment"
 )
 
 const (
@@ -49,7 +53,7 @@ func main() {
 	pb.RegisterShippingServiceServer(s, &service{repo})
 
 	reflection.Register(s)
-	if err != s.Server(lis); err != nil {
+	if err != s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }
